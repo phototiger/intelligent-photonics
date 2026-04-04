@@ -1,746 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INL — Intelligent Nanophotonics Lab @ DGIST</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<title>한상윤 연구실 — DGIST</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --cyan: #00e5ff;
-    --blue: #0062ff;
-    --deep: #050d1a;
-    --mid: #0a1628;
-    --panel: #0d1f3c;
-    --card: #0f2240;
-    --text: #e8f4ff;
-    --muted: #6b8eb5;
-    --accent: #ff6b35;
-    --green: #00e5a0;
-    --purple: #a78bfa;
-  }
-  html { scroll-behavior: smooth; }
-  body { background: var(--deep); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
-
-  #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.28; }
-  section, nav, footer { position: relative; z-index: 1; }
-
-  /* ── NAV ── */
-  nav {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.4rem 4rem;
-    border-bottom: 1px solid rgba(0,229,255,0.1);
-    backdrop-filter: blur(14px);
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(5,13,26,0.9);
-  }
-  .logo { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--cyan); letter-spacing: 0.18em; text-transform: uppercase; line-height: 1.5; }
-  .logo span { display: block; color: var(--muted); font-size: 0.62rem; letter-spacing: 0.12em; margin-top: 0.1rem; }
-  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
-  .nav-links a { font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--cyan); }
-
-  /* ── SHARED ── */
-  .section-label {
-    font-family: 'Space Mono', monospace; font-size: 0.67rem; letter-spacing: 0.25em;
-    text-transform: uppercase; color: var(--cyan); margin-bottom: 0.8rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .section-label::after { content: ''; height: 1px; background: rgba(0,229,255,0.2); max-width: 48px; flex: 1; }
-  h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; line-height: 1.1; }
-
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.85rem 2rem; background: var(--cyan); color: var(--deep);
-    font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; cursor: pointer; border: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,229,255,0.28); }
-  .btn-outline {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.85rem 2rem; border: 1px solid rgba(0,229,255,0.35); color: var(--cyan);
-    font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em;
-    text-transform: uppercase; text-decoration: none; background: transparent; cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .btn-outline:hover { border-color: var(--cyan); background: rgba(0,229,255,0.05); }
-
-  /* ── HERO ── */
-  #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 4rem; }
-  .hero-eyebrow {
-    font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.25em;
-    color: var(--cyan); text-transform: uppercase; margin-bottom: 1.5rem;
-    display: flex; align-items: center; gap: 0.75rem;
-    opacity: 0; animation: fadeUp 0.6s ease 0.1s forwards;
-  }
-  .hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--cyan); }
-  h1 {
-    font-family: 'Syne', sans-serif; font-size: clamp(2.8rem, 6.5vw, 5.8rem);
-    font-weight: 800; line-height: 1.0; letter-spacing: -0.025em; margin-bottom: 0.5rem;
-    opacity: 0; animation: fadeUp 0.7s ease 0.25s forwards;
-  }
-  .headline-sub {
-    font-family: 'Syne', sans-serif; font-size: clamp(1rem, 2vw, 1.4rem);
-    font-weight: 400; color: var(--muted); margin-bottom: 1.5rem;
-    opacity: 0; animation: fadeUp 0.7s ease 0.38s forwards;
-  }
-  .gradient-text {
-    background: linear-gradient(90deg, #00e5ff 0%, #4f8eff 50%, #a78bfa 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  }
-  .hero-desc {
-    font-size: 1.02rem; color: var(--muted); max-width: 540px;
-    margin-bottom: 2.5rem; line-height: 1.88; font-weight: 300;
-    opacity: 0; animation: fadeUp 0.7s ease 0.5s forwards;
-  }
-  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s ease 0.62s forwards; }
-  .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.07); flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s ease 0.76s forwards; }
-  .stat-item {}
-  .stat-num { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--cyan); line-height: 1.2; }
-  .stat-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
-
-  /* ── HIGHLIGHTS ── */
-  #highlights { padding: 4rem 4rem 3.5rem; background: rgba(0,98,255,0.04); border-bottom: 1px solid rgba(0,229,255,0.07); }
-  .highlights-row { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.5rem; }
-  .hl-badge {
-    display: flex; align-items: center; gap: 0.6rem;
-    padding: 0.55rem 1rem; border: 1px solid rgba(0,229,255,0.18);
-    font-size: 0.8rem; color: var(--text); transition: border-color 0.2s, background 0.2s; cursor: default;
-  }
-  .hl-badge:hover { border-color: rgba(0,229,255,0.45); background: rgba(0,229,255,0.04); }
-  .hl-star { color: var(--cyan); font-family: 'Space Mono', monospace; font-size: 0.65rem; white-space: nowrap; }
-
-  /* ── RESEARCH ── */
-  #research { padding: 7rem 4rem; }
-  .research-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; margin-bottom: 3.5rem; }
-  .research-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.88; font-weight: 300; }
-  .research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; }
-  .research-card { background: var(--card); padding: 2.5rem 2rem; position: relative; overflow: hidden; transition: background 0.3s; }
-  .research-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--cyan); transform: scaleX(0); transition: transform 0.4s ease; transform-origin: left; }
-  .research-card:hover::before { transform: scaleX(1); }
-  .research-card:hover { background: rgba(15,34,64,0.98); }
-  .card-num { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--cyan); letter-spacing: 0.2em; margin-bottom: 1.2rem; opacity: 0.5; }
-  .card-icon { font-size: 1.6rem; margin-bottom: 0.8rem; }
-  .card-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; line-height: 1.3; }
-  .card-problem { font-size: 0.78rem; color: var(--accent); font-weight: 500; margin-bottom: 0.5rem; letter-spacing: 0.03em; }
-  .card-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.75; margin-bottom: 1rem; }
-  .card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-  .tag { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; padding: 0.2rem 0.5rem; border: 1px solid rgba(0,229,255,0.18); color: var(--cyan); }
-
-  /* ── WHY JOIN ── */
-  #join-why { padding: 7rem 4rem; background: var(--panel); }
-  .join-why-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
-  .join-headline { font-family: 'Syne', sans-serif; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; line-height: 1.3; margin-top: 1rem; margin-bottom: 0.75rem; }
-  .join-headline span { color: var(--cyan); }
-  .join-sub { font-size: 0.9rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.8; }
-  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; }
-  .why-card { background: rgba(5,13,26,0.8); padding: 1.5rem 1.25rem; border-left: 2px solid transparent; transition: border-color 0.2s, background 0.2s; }
-  .why-card:hover { border-left-color: var(--cyan); background: rgba(0,229,255,0.03); }
-  .why-icon { font-size: 1.2rem; margin-bottom: 0.5rem; }
-  .why-title { font-family: 'Syne', sans-serif; font-size: 0.92rem; font-weight: 700; margin-bottom: 0.4rem; }
-  .why-desc { font-size: 0.79rem; color: var(--muted); line-height: 1.6; }
-  .career-box { margin-top: 2.5rem; padding: 1.5rem; border: 1px solid rgba(0,229,255,0.14); }
-  .career-title { font-family: 'Space Mono', monospace; font-size: 0.66rem; letter-spacing: 0.2em; color: var(--cyan); text-transform: uppercase; margin-bottom: 0.75rem; }
-  .career-items { display: flex; flex-direction: column; gap: 0.5rem; }
-  .career-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.84rem; color: var(--muted); }
-  .career-dot { width: 5px; height: 5px; background: var(--cyan); flex-shrink: 0; border-radius: 1px; }
-
-  /* ── PEOPLE ── */
-  #people { padding: 7rem 4rem; }
-  .people-header { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; margin-bottom: 3rem; }
-  .people-desc { font-size: 0.93rem; color: var(--muted); line-height: 1.8; }
-
-  /* PI card */
-  .pi-card { display: flex; gap: 2rem; align-items: center; background: var(--card); padding: 2rem 2.5rem; margin-bottom: 1.5px; border-left: 3px solid var(--cyan); }
-  .pi-avatar { width: 80px; height: 80px; min-width: 80px; border-radius: 50%; background: var(--panel); border: 2px solid rgba(0,229,255,0.3); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--cyan); }
-  .pi-info { flex: 1; }
-  .pi-name { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: 0.2rem; }
-  .pi-role { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--cyan); text-transform: uppercase; margin-bottom: 0.5rem; }
-  .pi-bio { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
-  .pi-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
-  .badge { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; padding: 0.22rem 0.55rem; background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.18); color: var(--cyan); }
-  .badge.purple { background: rgba(167,139,250,0.07); border-color: rgba(167,139,250,0.25); color: var(--purple); }
-  .badge.green { background: rgba(0,229,160,0.07); border-color: rgba(0,229,160,0.25); color: var(--green); }
-
-  .people-sub-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin: 2rem 0 1rem; display: flex; align-items: center; gap: 0.75rem; }
-  .people-sub-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
-
-  .students-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5px; }
-  .person-card { background: var(--card); padding: 1.5rem 1.25rem; transition: background 0.3s; }
-  .person-card:hover { background: rgba(15,34,64,0.98); }
-  .person-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--panel); border: 1.5px solid rgba(0,229,255,0.2); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--cyan); margin-bottom: 0.85rem; }
-  .person-name { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.2rem; }
-  .person-role { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; color: var(--cyan); text-transform: uppercase; }
-
-  .alumni-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; margin-top: 0; }
-  .alumni-card { background: rgba(5,13,26,0.6); padding: 1.2rem 1.25rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; transition: background 0.2s; }
-  .alumni-card:hover { background: rgba(13,31,60,0.8); }
-  .alumni-name { font-size: 0.88rem; font-weight: 500; margin-bottom: 0.15rem; }
-  .alumni-degree { font-size: 0.75rem; color: var(--muted); }
-  .alumni-dest { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; padding: 0.2rem 0.5rem; border: 1px solid rgba(0,229,160,0.3); color: var(--green); white-space: nowrap; }
-
-  /* ── POSITIONS ── */
-  #positions { padding: 7rem 4rem; background: var(--panel); }
-  .positions-inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: 6rem; }
-  .pos-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1.5px; }
-  .pos-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 1.4rem 1.5rem; background: var(--card); border-left: 2px solid transparent; transition: all 0.2s; gap: 1rem; }
-  .pos-row:hover { border-left-color: var(--cyan); background: rgba(15,34,64,0.98); }
-  .pos-title { font-size: 0.92rem; font-weight: 500; margin-bottom: 0.25rem; }
-  .pos-dept { font-size: 0.77rem; color: var(--muted); }
-  .pos-fit { font-size: 0.73rem; color: rgba(107,142,181,0.7); margin-top: 0.25rem; }
-  .pos-tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; padding: 0.22rem 0.55rem; white-space: nowrap; flex-shrink: 0; }
-  .pos-tag.open { border: 1px solid rgba(0,229,255,0.4); color: var(--cyan); }
-  .pos-tag.funded { border: 1px solid rgba(0,229,160,0.4); color: var(--green); }
-
-  .profile-box { padding: 1.5rem; border: 1px solid rgba(167,139,250,0.18); margin-top: 1.5rem; }
-  .profile-title { font-family: 'Space Mono', monospace; font-size: 0.66rem; letter-spacing: 0.2em; color: var(--purple); margin-bottom: 0.85rem; }
-  .profile-item { font-size: 0.83rem; color: var(--muted); padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: flex-start; gap: 0.75rem; line-height: 1.5; }
-  .profile-item:last-child { border-bottom: none; }
-  .profile-check { color: var(--purple); font-size: 0.7rem; flex-shrink: 0; margin-top: 0.15rem; }
-
-  /* Email reveal button */
-  .email-reveal-wrap { margin-top: 2rem; }
-  .email-reveal-btn {
-    display: inline-flex; align-items: center; gap: 0.6rem;
-    padding: 0.85rem 2rem; background: var(--cyan); color: var(--deep);
-    font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border: none;
-    transition: transform 0.2s, box-shadow 0.2s; width: 100%; justify-content: center;
-  }
-  .email-reveal-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,229,255,0.28); }
-  .email-revealed {
-    display: none; margin-top: 1rem;
-    padding: 1rem 1.25rem; background: rgba(0,229,255,0.06);
-    border: 1px solid rgba(0,229,255,0.25); text-align: center;
-  }
-  .email-revealed.show { display: block; }
-  .email-address { font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--cyan); letter-spacing: 0.05em; }
-  .email-copy-btn {
-    display: inline-block; margin-top: 0.5rem; font-size: 0.7rem;
-    color: var(--muted); cursor: pointer; border: none; background: none;
-    font-family: 'Space Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase;
-    text-decoration: underline; text-underline-offset: 3px;
-  }
-  .email-copy-btn:hover { color: var(--cyan); }
-  .apply-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.75; margin-bottom: 0.5rem; }
-  .apply-box { margin-top: 2rem; padding: 1.5rem; background: rgba(0,229,255,0.04); border: 1px solid rgba(0,229,255,0.12); }
-
-  /* ── FOOTER ── */
-  footer { padding: 3rem 4rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
-  .footer-logo { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--cyan); letter-spacing: 0.18em; line-height: 1.6; }
-  .footer-logo span { display: block; color: var(--muted); font-size: 0.6rem; margin-top: 0.2rem; }
-  .footer-links { display: flex; gap: 2rem; font-size: 0.78rem; flex-wrap: wrap; }
-  .footer-links a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
-  .footer-links a:hover { color: var(--cyan); }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-  /* Default: visible. JS adds .wait class only if IntersectionObserver is supported */
-  .reveal { opacity: 1; transform: none; transition: opacity 0.65s ease, transform 0.65s ease; }
-  .reveal.wait { opacity: 0; transform: translateY(18px); }
-  .reveal.wait.visible { opacity: 1; transform: none; }
-  .reveal-d1 { transition-delay: 0.1s; }
-  .reveal-d2 { transition-delay: 0.2s; }
-  .reveal-d3 { transition-delay: 0.3s; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 1050px) {
-    nav { padding: 1.2rem 2rem; }
-    .nav-links { display: none; }
-    #hero, #highlights, #research, #join-why, #people, #positions { padding: 4.5rem 2rem; }
-    .research-intro, .join-why-inner, .positions-inner, .people-header { grid-template-columns: 1fr; gap: 2rem; }
-    .research-grid { grid-template-columns: 1fr 1fr; }
-    .students-grid { grid-template-columns: repeat(3, 1fr); }
-    .alumni-grid { grid-template-columns: 1fr 1fr; }
-    .why-grid { grid-template-columns: 1fr; }
-    footer { padding: 2rem; flex-direction: column; align-items: flex-start; }
-  }
-  @media (max-width: 640px) {
-    .research-grid, .students-grid { grid-template-columns: 1fr 1fr; }
-    .alumni-grid { grid-template-columns: 1fr; }
-    .hero-stats { gap: 1.5rem; }
-    .pi-card { flex-direction: column; align-items: flex-start; }
-  }
+  :root { --bg:#0a0c10;--surface:#111318;--border:rgba(255,255,255,0.07);--text:#e8e6e0;--text-muted:#8a8880;--text-faint:#444240;--accent:#7eb8c9;--accent-warm:#c9a87e; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-weight:300;line-height:1.8;overflow-x:hidden}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 4rem;background:rgba(10,12,16,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+  .nav-logo{font-family:'Noto Serif KR',serif;font-size:0.9rem;font-weight:400;color:var(--text);text-decoration:none;display:flex;flex-direction:column;gap:0.1rem}
+  .nav-logo span{font-size:0.7rem;color:var(--text-muted);font-weight:300;letter-spacing:0.08em}
+  .nav-links{display:flex;gap:2.5rem;list-style:none}
+  .nav-links a{color:var(--text-muted);text-decoration:none;font-size:0.8rem;letter-spacing:0.06em;transition:color 0.2s}
+  .nav-links a:hover{color:var(--accent)}
+  #hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 4rem;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 50%,rgba(126,184,201,0.06) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 30% 80%,rgba(201,168,126,0.04) 0%,transparent 60%)}
+  .hero-grid{position:absolute;inset:0;opacity:0.025;background-image:linear-gradient(rgba(126,184,201,0.8) 1px,transparent 1px),linear-gradient(90deg,rgba(126,184,201,0.8) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 80% at 70% 50%,black 0%,transparent 70%)}
+  .hero-content{position:relative;max-width:720px;animation:fadeUp 1.2s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  .hero-label{font-size:0.72rem;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+  .hero-label::before{content:'';display:block;width:32px;height:1px;background:var(--accent)}
+  .hero-title{font-family:'Noto Serif KR',serif;font-size:clamp(2.8rem,6vw,5rem);font-weight:300;line-height:1.2;margin-bottom:2rem;color:#f0ede8}
+  .hero-title em{font-style:normal;color:var(--accent)}
+  .hero-sub{font-family:'Noto Serif KR',serif;font-size:clamp(1rem,1.6vw,1.2rem);font-weight:300;color:var(--text-muted);line-height:1.9;max-width:560px;margin-bottom:3rem;animation:fadeUp 1.2s 0.3s ease both}
+  .hero-sub strong{color:var(--text);font-weight:400}
+  .hero-cta{display:flex;gap:1.2rem;animation:fadeUp 1.2s 0.5s ease both}
+  .btn{display:inline-block;padding:0.75rem 1.8rem;font-size:0.78rem;font-weight:400;letter-spacing:0.08em;text-decoration:none;border-radius:2px;transition:all 0.25s}
+  .btn-primary{background:var(--accent);color:var(--bg)}
+  .btn-primary:hover{background:#a4d0e0;transform:translateY(-1px);box-shadow:0 8px 24px rgba(126,184,201,0.25)}
+  .btn-ghost{border:1px solid var(--border);color:var(--text-muted)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .hero-scroll{position:absolute;bottom:2.5rem;right:4rem;display:flex;align-items:center;gap:0.8rem;color:var(--text-faint);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase}
+  .hero-scroll::after{content:'';display:block;width:1px;height:40px;background:linear-gradient(to bottom,var(--text-faint),transparent);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
+  section{padding:7rem 4rem;border-top:1px solid var(--border)}
+  .section-label{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:0.8rem}
+  .section-label::before{content:'';display:block;width:20px;height:1px;background:var(--accent)}
+  .section-title{font-family:'Noto Serif KR',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:300;line-height:1.3;margin-bottom:1rem;color:#f0ede8}
+  .section-intro{font-size:1rem;color:var(--text-muted);max-width:640px;line-height:1.9;margin-bottom:4rem}
+  #research{background:var(--surface)}
+  .research-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:3rem}
+  .research-card{background:var(--bg);padding:3rem;position:relative;overflow:hidden;transition:background 0.3s}
+  .research-card:hover{background:#0d1015}
+  .research-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:var(--accent);transition:height 0.4s ease}
+  .research-card:hover::before{height:100%}
+  .card-number{font-size:0.65rem;letter-spacing:0.15em;color:var(--text-faint);margin-bottom:1.5rem}
+  .card-title{font-family:'Noto Serif KR',serif;font-size:1.3rem;font-weight:400;margin-bottom:0.5rem;color:#f0ede8;line-height:1.4}
+  .card-subtitle{font-size:0.8rem;color:var(--accent);margin-bottom:1.5rem}
+  .card-body{font-size:0.9rem;color:var(--text-muted);line-height:1.9;margin-bottom:2rem}
+  .card-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+  .tag{font-size:0.68rem;padding:0.3rem 0.8rem;border:1px solid var(--border);color:var(--text-faint);border-radius:2px}
+  .placeholder{background:repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(255,255,255,0.015) 4px,rgba(255,255,255,0.015) 8px);border:1px dashed var(--border);border-radius:4px;padding:4rem;text-align:center;color:var(--text-faint);font-size:0.85rem;margin-top:2rem}
+  footer{padding:3rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;color:var(--text-faint);font-size:0.75rem}
+  @media(max-width:768px){nav,#hero,section,footer{padding-left:1.5rem;padding-right:1.5rem}.research-grid{grid-template-columns:1fr}.nav-links{display:none}}
 </style>
 </head>
 <body>
-
-<canvas id="canvas-bg"></canvas>
-
-<!-- ── NAV ── -->
 <nav>
-  <div class="logo">
-    INL — Intelligent Nanophotonics Lab
-    <span>Prof. Sangyoon Han · DGIST · Daegu, Korea</span>
-  </div>
+  <a href="#" class="nav-logo">한상윤 연구실<span>DGIST · 로봇공학부</span></a>
   <ul class="nav-links">
-    <li><a href="#highlights">Highlights</a></li>
-    <li><a href="#research">Research</a></li>
-    <li><a href="#join-why">Why Join</a></li>
-    <li><a href="#people">People</a></li>
-    <li><a href="#positions">Positions</a></li>
+    <li><a href="#about">소개</a></li><li><a href="#research">연구</a></li><li><a href="#publications">논문</a></li><li><a href="#team">구성원</a></li><li><a href="#news">소식</a></li><li><a href="#contact">합류하기</a></li>
   </ul>
 </nav>
-
-<!-- ── HERO ── -->
 <section id="hero">
-  <div class="hero-eyebrow">Intelligent Nanophotonics Lab @ DGIST</div>
-  <h1><span class="gradient-text">Building the Future<br>of Computing<br>with Light.</span></h1>
-  <p class="headline-sub">From device physics to system-level AI hardware.</p>
-  <p class="hero-desc">
-    전자(electron)의 시대가 끝나고 있습니다. 우리는 실리콘 포토닉스와 MEMS를 융합해
-    초저전력 광학 프로세서를 만듭니다. AI 컴퓨팅의 에너지 한계를 돌파하는
-    차세대 하드웨어 — 그 최전선에 INL이 있습니다.
-  </p>
-  <div class="hero-cta">
-    <a href="#positions" class="btn-primary">Join Our Lab →</a>
-    <a href="#research" class="btn-outline">Explore Research</a>
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-label">Intelligent Nanophotonics Lab @ DGIST</div>
+    <h1 class="hero-title">빛과<br>반도체의<br><em>만남</em></h1>
+    <p class="hero-sub">광반도체는 소자의 시대를 지나 <strong>회로의 시대</strong>로 진입하고 있습니다.<br>우리는 실리콘 포토닉스와 MEMS의 결합으로 그 전환을 만들어가고 있습니다.</p>
+    <div class="hero-cta"><a href="#research" class="btn btn-primary">연구 보기</a><a href="#contact" class="btn btn-ghost">합류하기</a></div>
   </div>
-  <div class="hero-stats">
-    <div class="stat-item">
-      <div class="stat-num">Nature<br>Photonics</div>
-      <div class="stat-label">게재 · IF 34.9</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">SPIE / IEEE</div>
-      <div class="stat-label">Invited Talks</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">Samsung</div>
-      <div class="stat-label">산학 프로젝트</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">Samsung<br>ASML · More</div>
-      <div class="stat-label">졸업생 진출</div>
-    </div>
-  </div>
+  <div class="hero-scroll">Scroll</div>
 </section>
-
-<!-- ── HIGHLIGHTS ── -->
-<section id="highlights">
-  <div class="section-label reveal">Recent Highlights</div>
-  <div class="highlights-row">
-    <div class="hl-badge reveal"><span class="hl-star">★ 2026.01</span> Invited Talk — <strong>SPIE Photonics West 2026</strong></div>
-    <div class="hl-badge reveal"><span class="hl-star">★ 2025.11</span> Invited Talk — <strong>IEEE IPC 2025</strong>, Singapore</div>
-    <div class="hl-badge reveal"><span class="hl-star">★ 2025.09</span> <strong>DGIST 우수연구상</strong> 수상</div>
-    <div class="hl-badge reveal"><span class="hl-star">★ 2025.05</span> Invited Lecture — <strong>SK hynix</strong> Next Chip Talk</div>
-    <div class="hl-badge reveal"><span class="hl-star">★ 2024.04</span> Young Scientist Award — <strong>PIERS 2024</strong></div>
-    <div class="hl-badge reveal"><span class="hl-star">★ 2023.11</span> Paper in <strong>Nature Photonics</strong> · Dec Issue Hero Image</div>
-  </div>
-</section>
-
-<!-- ── RESEARCH ── -->
 <section id="research">
-  <div class="research-intro">
-    <div>
-      <div class="section-label reveal">Research</div>
-      <h2 class="reveal">문제에서 시작해<br>시스템으로 끝냅니다</h2>
-    </div>
-    <p class="research-desc reveal">
-      우리는 소자 하나를 만드는 연구실이 아닙니다. AI 시대의 컴퓨팅 병목,
-      자율주행의 인식 한계 — 시스템 레벨의 문제를 광학 기술로 풀고,
-      실제 칩을 설계·제작·측정하는 full-cycle 연구를 합니다.
-    </p>
-  </div>
+  <div class="section-label">Research</div>
+  <h2 class="section-title">두 가지 질문,<br>하나의 기술</h2>
+  <p class="section-intro">빛을 반도체 위에서 자유자재로 다루는 것 — 그것이 우리 연구의 출발점입니다. Silicon Photonics와 MEMS 기술을 결합해 두 개의 큰 도전에 답하고 있습니다.</p>
   <div class="research-grid">
-    <div class="research-card reveal">
-      <div class="card-num">01 ——</div>
-      <div class="card-icon">⚡</div>
-      <div class="card-title">Optical AI Accelerators</div>
-      <div class="card-problem">문제: GPU 간 데이터 전송이 AI의 에너지 병목</div>
-      <p class="card-desc">실리콘 광인터커넥트로 전력 100x↓, 대역폭 10x↑. "AI Acceleration Enabled by Silicon Photonic MEMS" — IEEE IPC 2025 invited talk 주제.</p>
-      <div class="card-tags"><span class="tag">Photonic Interconnect</span><span class="tag">Silicon PIC</span><span class="tag">AI HW</span></div>
+    <div class="research-card">
+      <div class="card-number">THRUST 01</div>
+      <h3 class="card-title">대규모 광회로 스위치</h3>
+      <div class="card-subtitle">Large-Scale Optical Circuit Switch</div>
+      <p class="card-body">빛의 경로를 자유롭게 제어하는 초대형 스위치를 만듭니다. LiDAR, AR 디스플레이, 양자-광학 인터페이스에 걸쳐 다음 세대 광학 시스템의 핵심 부품이 될 기술입니다.</p>
+      <div class="card-tags"><span class="tag">LiDAR</span><span class="tag">AR Display</span><span class="tag">Quantum-Optical Interface</span><span class="tag">Beam Steering</span></div>
     </div>
-    <div class="research-card reveal">
-      <div class="card-num">02 ——</div>
-      <div class="card-icon">🔬</div>
-      <div class="card-title">Silicon Photonic MEMS</div>
-      <div class="card-problem">문제: 고정된 광학 회로는 실시간 재구성 불가</div>
-      <p class="card-desc">MEMS 액추에이터로 광경로를 동적 제어. Programmable photonic circuits for optical switches, tunable couplers, and phase shifters. Nature Photonics 게재.</p>
-      <div class="card-tags"><span class="tag">MEMS</span><span class="tag">Optical Switch</span><span class="tag">Programmable</span></div>
-    </div>
-    <div class="research-card reveal">
-      <div class="card-num">03 ——</div>
-      <div class="card-icon">🌐</div>
-      <div class="card-title">FMCW LiDAR Systems</div>
-      <div class="card-problem">문제: 자율주행 LiDAR는 크고 비싸고 느림</div>
-      <p class="card-desc">실리콘 칩 위에 집적된 FMCW LiDAR. Nature Communications 게재 (UC Berkeley·KAIST·EPFL 공동). Integrated sensing and computation.</p>
-      <div class="card-tags"><span class="tag">FMCW LiDAR</span><span class="tag">OPA</span><span class="tag">Autonomous</span></div>
-    </div>
-    <div class="research-card reveal reveal-d1">
-      <div class="card-num">04 ——</div>
-      <div class="card-icon">💡</div>
-      <div class="card-title">Optical Neural Networks</div>
-      <div class="card-problem">문제: 뉴럴넷 연산의 에너지·속도 한계</div>
-      <p class="card-desc">빛의 병렬처리를 이용한 광학 행렬 곱셈기. 실리콘 포토닉스 기반 아날로그 컴퓨팅으로 고전 반도체의 한계를 뛰어넘는 AI 프로세서 구현.</p>
-      <div class="card-tags"><span class="tag">ONN</span><span class="tag">Matrix Multiply</span><span class="tag">Analog</span></div>
-    </div>
-    <div class="research-card reveal reveal-d2">
-      <div class="card-num">05 ——</div>
-      <div class="card-icon">🔊</div>
-      <div class="card-title">Photonic Ultrasound Sensor</div>
-      <div class="card-problem">문제: 기존 초음파 센서의 민감도·크기 한계</div>
-      <p class="card-desc">양자 감도 수준의 광학 초음파 센서. Samsung 프로젝트 수주. IEEE IUS 2023 Best Paper Award. 비접촉·비파괴 검사의 새 패러다임.</p>
-      <div class="card-tags"><span class="tag">Ultrasound</span><span class="tag">Quantum Sensing</span><span class="tag">NDT</span></div>
-    </div>
-    <div class="research-card reveal reveal-d3">
-      <div class="card-num">06 ——</div>
-      <div class="card-icon">⚛️</div>
-      <div class="card-title">Coherent Ising Machine</div>
-      <div class="card-problem">문제: 고전 컴퓨터로 풀기 어려운 최적화 문제</div>
-      <p class="card-desc">광학 기반 조합 최적화 컴퓨팅. Samsung 미래기술육성사업 선정 과제. 고전 컴퓨팅의 한계를 넘는 optical computing paradigm.</p>
-      <div class="card-tags"><span class="tag">Ising Machine</span><span class="tag">Optimization</span><span class="tag">Optical Computing</span></div>
+    <div class="research-card">
+      <div class="card-number">THRUST 02</div>
+      <h3 class="card-title">대규모 광자 FPGA</h3>
+      <div class="card-subtitle">Large-Scale Photonic FPGA</div>
+      <p class="card-body">빛으로 연산하는 컴퓨터를 만듭니다. 전기 소자 대비 소비전력을 10¹¹배 줄이면서, AI 가속, 이징 머신, 양자 고유값 계산에 새로운 가능성을 열고 있습니다.</p>
+      <div class="card-tags"><span class="tag">Photonic Tensor Core</span><span class="tag">Ising Machine</span><span class="tag">Quantum Eigen Solver</span></div>
     </div>
   </div>
 </section>
-
-<!-- ── WHY JOIN ── -->
-<section id="join-why">
-  <div class="join-why-inner">
-    <div>
-      <div class="section-label reveal">Why Join INL</div>
-      <div class="join-headline reveal">우리 연구실이<br><span>특별한 이유</span></div>
-      <p class="join-sub reveal">
-        지원자들이 가장 많이 묻는 질문은 "여기 오면 내가 잘 될 수 있나요?" 입니다.
-        우리 졸업생들의 커리어가 답합니다.
-      </p>
-      <div class="why-grid reveal">
-        <div class="why-card">
-          <div class="why-icon">📄</div>
-          <div class="why-title">Top-tier 논문</div>
-          <div class="why-desc">Nature Photonics (IF 34.9), Nature Communications, ACS Photonics 등 최상위 저널에 제1저자로 게재</div>
-        </div>
-        <div class="why-card">
-          <div class="why-icon">🏭</div>
-          <div class="why-title">산업 연결</div>
-          <div class="why-desc">Samsung 미래기술육성사업 수주. SK hynix, ASML 등 국내외 반도체 기업 강연 및 교류. 재학 중부터 업계 핵심 인사와 네트워크 형성</div>
-        </div>
-        <div class="why-card">
-          <div class="why-icon">🔧</div>
-          <div class="why-title">실제 칩 제작</div>
-          <div class="why-desc">TSMC/GlobalFoundries 파운드리 테이프아웃 경험. 설계→제작→측정→논문 전 과정 직접 수행</div>
-        </div>
-        <div class="why-card">
-          <div class="why-icon">🌍</div>
-          <div class="why-title">글로벌 협력</div>
-          <div class="why-desc">UC Berkeley, KAIST, EPFL, KIST 공동 연구. 국제 컨퍼런스 발표 전액 지원</div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="career-box reveal">
-        <div class="career-title">Alumni — 졸업 후 진출</div>
-        <div class="career-items">
-          <div class="career-item"><span class="career-dot"></span>Samsung Electronics — 연구원</div>
-          <div class="career-item"><span class="career-dot"></span>ASML Korea — 엔지니어</div>
-          <div class="career-item"><span class="career-dot"></span>Lime Photonics — 스타트업</div>
-        </div>
-      </div>
-      <div style="margin-top:1.5rem; padding: 1.5rem; background: rgba(0,229,255,0.04); border: 1px solid rgba(0,229,255,0.1);">
-        <div class="career-title">연구실 지원 사항</div>
-        <div class="career-items">
-          <div class="career-item"><span class="career-dot"></span>장학금 + 연구수당 전액 지원</div>
-          <div class="career-item"><span class="career-dot"></span>주 1회 PI 1:1 미팅 — 세밀한 연구 피드백</div>
-          <div class="career-item"><span class="career-dot"></span>국내외 컨퍼런스 참가비 전액 지원</div>
-          <div class="career-item"><span class="career-dot"></span>Samsung 미래기술육성사업 프로젝트 참여 기회</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── PEOPLE ── -->
-<section id="people">
-  <div class="people-header">
-    <div>
-      <div class="section-label reveal">People</div>
-      <h2 class="reveal">같이 일할 사람들</h2>
-    </div>
-    <p class="people-desc reveal">
-      좋은 지원자는 연구만큼 "함께하는 사람"을 봅니다.
-      INL은 현재 교수 1명, 대학원생 12명, 학부 인턴으로 구성된 팀입니다.
-    </p>
-  </div>
-
-  <!-- PI -->
-  <div class="pi-card reveal">
-    <div class="pi-avatar">SH</div>
-    <div class="pi-info">
-      <div class="pi-name">Sangyoon Han (한상윤)</div>
-      <div class="pi-role">Associate Professor · DGIST</div>
-      <div class="pi-bio">UC Berkeley 박사 (2010년 한국고등교육재단 장학생). 실리콘 포토닉스, MEMS, 광학 AI 하드웨어 전문. SPIE Photonics West, IEEE IPC, CLEO, ECOC 등 다수 초청 강연.</div>
-      <div class="pi-badges">
-        <span class="badge">Nature Photonics</span>
-        <span class="badge">Nature Communications</span>
-        <span class="badge purple">DGIST 우수연구상 2025</span>
-        <span class="badge green">Young Scientist Award PIERS 2024</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Graduate Students -->
-  <div class="people-sub-label reveal">Graduate Students</div>
-  <div class="students-grid">
-    <div class="person-card reveal">
-      <div class="person-avatar">YP</div>
-      <div class="person-name">Young Jae Park</div>
-      <div class="person-role">Integrated Ph.D.</div>
-    </div>
-    <div class="person-card reveal">
-      <div class="person-avatar">DK</div>
-      <div class="person-name">Dong Uk Kim</div>
-      <div class="person-role">Ph.D. Candidate</div>
-    </div>
-    <div class="person-card reveal">
-      <div class="person-avatar">MH</div>
-      <div class="person-name">Man Jae Her</div>
-      <div class="person-role">Ph.D. Candidate</div>
-    </div>
-    <div class="person-card reveal">
-      <div class="person-avatar">SL</div>
-      <div class="person-name">Seungmin Lee</div>
-      <div class="person-role">Ph.D. Candidate</div>
-    </div>
-    <div class="person-card reveal">
-      <div class="person-avatar">TK</div>
-      <div class="person-name">Taeyeon Kim</div>
-      <div class="person-role">Integrated Ph.D.</div>
-    </div>
-    <div class="person-card reveal">
-      <div class="person-avatar">JP</div>
-      <div class="person-name">Janghoon Park</div>
-      <div class="person-role">M.S. Candidate</div>
-    </div>
-    <div class="person-card reveal">
-      <div class="person-avatar">JL</div>
-      <div class="person-name">Jeong Mook Lim</div>
-      <div class="person-role">Integrated Ph.D.</div>
-    </div>
-    <div class="person-card reveal">
-      <div class="person-avatar">IK</div>
-      <div class="person-name">Ik Ju Kim</div>
-      <div class="person-role">M.S. Candidate</div>
-    </div>
-    <div class="person-card reveal">
-      <div class="person-avatar">DM</div>
-      <div class="person-name">Dong Youn Mah</div>
-      <div class="person-role">Integrated Ph.D.</div>
-    </div>
-    <div class="person-card reveal">
-      <div class="person-avatar">HL</div>
-      <div class="person-name">Hojune Lee</div>
-      <div class="person-role">M.S. Candidate</div>
-    </div>
-    <div class="person-card reveal">
-      <div class="person-avatar">JC</div>
-      <div class="person-name">Jinyoung Cha</div>
-      <div class="person-role">M.S. Candidate</div>
-    </div>
-    <div class="person-card reveal">
-      <div class="person-avatar">SC</div>
-      <div class="person-name">Seung Min Chae</div>
-      <div class="person-role">M.S. Candidate</div>
-    </div>
-  </div>
-
-  <!-- Alumni -->
-  <div class="people-sub-label reveal">Alumni</div>
-  <div class="alumni-grid">
-    <div class="alumni-card reveal">
-      <div><div class="alumni-name">Myung Seok Hong</div><div class="alumni-degree">B.S. & M.S. · 2024</div></div>
-      <span class="alumni-dest">ASML Korea</span>
-    </div>
-    <div class="alumni-card reveal">
-      <div><div class="alumni-name">Min Gi Lim</div><div class="alumni-degree">M.S. · 2024</div></div>
-      <span class="alumni-dest">Samsung Electronics</span>
-    </div>
-    <div class="alumni-card reveal">
-      <div><div class="alumni-name">Do Yun Kim</div><div class="alumni-degree">M.S. · 2022</div></div>
-      <span class="alumni-dest">Samsung Electronics</span>
-    </div>
-    <div class="alumni-card reveal">
-      <div><div class="alumni-name">Dongju Choi</div><div class="alumni-degree">M.S. · 2026</div></div>
-      <span class="alumni-dest">Lime Photonics</span>
-    </div>
-    <div class="alumni-card reveal">
-      <div><div class="alumni-name">Jae Hyeon Kim</div><div class="alumni-degree">M.S. · 2026</div></div>
-      <span class="alumni-dest">—</span>
-    </div>
-  </div>
-</section>
-
-<!-- ── POSITIONS ── -->
-<section id="positions">
-  <div class="positions-inner">
-    <div>
-      <div class="section-label reveal">Open Positions</div>
-      <h2 class="reveal">지금 모집 중입니다</h2>
-      <div class="pos-list reveal">
-        <div class="pos-row">
-          <div>
-            <div class="pos-title">박사과정 (Ph.D.)</div>
-            <div class="pos-dept">Optical AI Accelerator / Silicon Photonic MEMS</div>
-            <div class="pos-fit">EE · Physics · Applied Science 배경 우대</div>
-          </div>
-          <span class="pos-tag funded">장학금 지원</span>
-        </div>
-        <div class="pos-row">
-          <div>
-            <div class="pos-title">석사과정 (M.S.)</div>
-            <div class="pos-dept">FMCW LiDAR / Photonic MEMS 설계</div>
-            <div class="pos-fit">EE · Physics · CS 가능</div>
-          </div>
-          <span class="pos-tag open">모집 중</span>
-        </div>
-        <div class="pos-row">
-          <div>
-            <div class="pos-title">학부 인턴 (상시)</div>
-            <div class="pos-dept">광측정 · FDTD 시뮬레이션 · 데이터 분석</div>
-            <div class="pos-fit">학기 중 / 방학 모두 가능</div>
-          </div>
-          <span class="pos-tag open">상시</span>
-        </div>
-        <div class="pos-row">
-          <div>
-            <div class="pos-title">포스닥 (Postdoc)</div>
-            <div class="pos-dept">Quantum Photonics / Optical Computing</div>
-            <div class="pos-fit">PhD 취득 후 우대</div>
-          </div>
-          <span class="pos-tag funded">펀딩 확보</span>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <div class="profile-box reveal">
-        <div class="profile-title">우리 연구실에 잘 맞는 사람</div>
-        <div class="profile-item"><span class="profile-check">◆</span>EE / Physics / CS / Applied Science 전공</div>
-        <div class="profile-item"><span class="profile-check">◆</span>소자(device)와 시스템(system) 둘 다 관심 있는 사람</div>
-        <div class="profile-item"><span class="profile-check">◆</span>"왜 이게 중요한가"를 스스로 묻는 자기주도형</div>
-        <div class="profile-item"><span class="profile-check">◆</span>광측정 또는 시뮬레이션 경험 보유 (필수 아님)</div>
-        <div class="profile-item"><span class="profile-check">◆</span>영어 논문 읽기 가능 (작성 실력은 함께 키움)</div>
-      </div>
-
-      <div class="apply-box reveal">
-        <div class="career-title" style="font-family:'Space Mono',monospace;font-size:0.66rem;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;margin-bottom:.75rem;">지원 방법</div>
-        <p class="apply-desc">아래 내용을 포함한 이메일을 보내주세요:<br><br>
-          <strong style="color:var(--text)">① CV</strong> — 학력, 연구/프로젝트 경험 포함<br>
-          <strong style="color:var(--text)">② 성적표</strong> (비공식 가능)<br>
-          <strong style="color:var(--text)">③ 관심 연구 분야</strong> — 2~3문장
-        </p>
-
-        <!-- ── EMAIL REVEAL BUTTON ── -->
-        <div class="email-reveal-wrap">
-          <button class="email-reveal-btn" onclick="revealEmail()">
-            📧 이메일 주소 확인하기
-          </button>
-          <div class="email-revealed" id="emailBox">
-            <div class="email-address" id="emailText"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="74070d1c151a3410131d07005a15175a1f06">[email&#160;protected]</a></div>
-            <button class="email-copy-btn" onclick="copyEmail()">Copy to clipboard</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <div class="footer-logo">
-    INL — Intelligent Nanophotonics Lab
-    <span>DGIST · 333 Techno Jungang-daero, Hyeonpung-eup, Dalseong-gun, Daegu 42988, Korea</span>
-  </div>
-  <div class="footer-links">
-    <a href="https://www.intelligent-photonics.com" target="_blank">현재 홈페이지</a>
-    <a href="#">Google Scholar</a>
-    <a href="#">Publications</a>
-    <a href="https://www.dgist.ac.kr" target="_blank">DGIST</a>
-  </div>
-</footer>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ── EMAIL REVEAL ──
-function revealEmail() {
-  const box = document.getElementById('emailBox');
-  box.classList.add('show');
-  document.querySelector('.email-reveal-btn').style.display = 'none';
-}
-
-function copyEmail() {
-  const email = document.getElementById('emailText').textContent;
-  navigator.clipboard.writeText(email).then(() => {
-    const btn = document.querySelector('.email-copy-btn');
-    btn.textContent = '✓ Copied!';
-    btn.style.color = 'var(--green)';
-    setTimeout(() => { btn.textContent = 'Copy to clipboard'; btn.style.color = ''; }, 2000);
-  });
-}
-
-// ── CANVAS ANIMATION ──
-const canvas = document.getElementById('canvas-bg');
-const ctx = canvas.getContext('2d');
-let W, H, nodes, pulses;
-
-function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-  initNodes();
-}
-
-function initNodes() {
-  nodes = [];
-  const cols = Math.ceil(W / 130), rows = Math.ceil(H / 110);
-  for (let r = 0; r <= rows; r++)
-    for (let c = 0; c <= cols; c++)
-      nodes.push({ x: c * 130 + (Math.random()-0.5)*55, y: r * 110 + (Math.random()-0.5)*45 });
-  pulses = [];
-  for (let i = 0; i < 10; i++) spawnPulse();
-}
-
-function spawnPulse() {
-  const n1 = nodes[Math.floor(Math.random()*nodes.length)];
-  const n2 = nodes[Math.floor(Math.random()*nodes.length)];
-  if (n1===n2) return;
-  const d = Math.hypot(n2.x-n1.x, n2.y-n1.y);
-  if (d > 260 || d < 50) return;
-  pulses.push({ x:n1.x, y:n1.y, tx:n2.x, ty:n2.y, t:0, speed:0.005+Math.random()*0.007 });
-}
-
-function draw() {
-  ctx.clearRect(0,0,W,H);
-  ctx.strokeStyle='rgba(0,98,255,0.07)'; ctx.lineWidth=0.5;
-  for (let i=0;i<nodes.length;i++)
-    for (let j=i+1;j<nodes.length;j++) {
-      const d=Math.hypot(nodes[j].x-nodes[i].x,nodes[j].y-nodes[i].y);
-      if(d<195){ctx.beginPath();ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.stroke();}
-    }
-  nodes.forEach(n=>{ctx.beginPath();ctx.arc(n.x,n.y,1.2,0,Math.PI*2);ctx.fillStyle='rgba(0,229,255,0.2)';ctx.fill();});
-  pulses.forEach((p,i)=>{
-    p.t+=p.speed;
-    if(p.t>=1){pulses.splice(i,1);spawnPulse();return;}
-    const x=p.x+(p.tx-p.x)*p.t, y=p.y+(p.ty-p.y)*p.t;
-    const g=ctx.createRadialGradient(x,y,0,x,y,7);
-    g.addColorStop(0,'rgba(0,229,255,0.85)');g.addColorStop(1,'rgba(0,229,255,0)');
-    ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
-  });
-  requestAnimationFrame(draw);
-}
-
-window.addEventListener('resize', resize);
-resize(); draw();
-
-// ── SCROLL REVEAL ──
-const revealEls = document.querySelectorAll('.reveal');
-if ('IntersectionObserver' in window) {
-  revealEls.forEach(el => el.classList.add('wait'));
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.07 });
-  revealEls.forEach(el => obs.observe(el));
-}
-</script>
+<section id="about"><div class="section-label">About</div><h2 class="section-title">한상윤</h2><div class="placeholder">— 소개 텍스트 작성 예정 —</div></section>
+<section id="publications"><div class="section-label">Publications</div><h2 class="section-title">주요 논문</h2><div class="placeholder">— 논문 목록 추가 예정 —</div></section>
+<section id="team"><div class="section-label">Team</div><h2 class="section-title">구성원</h2><div class="placeholder">— 구성원 정보 추가 예정 —</div></section>
+<section id="news"><div class="section-label">News</div><h2 class="section-title">최근 소식</h2><div class="placeholder">— 소식 추가 예정 —</div></section>
+<section id="contact"><div class="section-label">Join Us</div><h2 class="section-title">함께 연구하실 분을<br>찾습니다</h2><div class="placeholder">— 모집 안내 추가 예정 —</div></section>
+<footer><span>© 2025 Sangyoon Han Lab · DGIST</span><span>Daegu, Korea</span></footer>
 </body>
 </html>
