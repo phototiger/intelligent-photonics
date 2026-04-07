@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photonic Tensor Core — Han's Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0c10;--surface:#111318;--border:rgba(255,255,255,0.07);--text:#e8e6e0;--text-muted:#8a8880;--text-faint:#444240;--accent:#7eb8c9;--accent-warm:#c9a87e}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-weight:300;line-height:1.8}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 4rem;background:rgba(10,12,16,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Noto Serif KR',serif;font-size:1rem;font-weight:400;letter-spacing:0.04em;color:var(--text);text-decoration:none}
+.nav-back{color:var(--text-muted);text-decoration:none;font-size:0.8rem;letter-spacing:0.06em;transition:color 0.2s}
+.nav-back:hover{color:var(--accent)}
+.page-hero{padding:8rem 4rem 4rem;max-width:800px}
+.page-label{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:0.8rem}
+.page-label::before{content:'';display:block;width:20px;height:1px;background:var(--accent)}
+.page-title{font-family:'Noto Serif KR',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;line-height:1.3;margin-bottom:1rem;color:#f0ede8}
+.page-subtitle{font-size:1rem;color:var(--accent);margin-bottom:3rem}
+.page-content{padding:0 4rem 6rem;max-width:800px}
+.page-content p{font-size:0.95rem;color:var(--text-muted);line-height:2;margin-bottom:1.5rem}
+.page-img{width:100%;aspect-ratio:16/9;background:var(--surface);border:1px dashed var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--text-faint);font-size:0.85rem;margin-bottom:2rem}
+footer{padding:3rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;color:var(--text-faint);font-size:0.75rem}
+@media(max-width:768px){nav,.page-hero,.page-content,footer{padding-left:1.5rem;padding-right:1.5rem}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html" class="nav-logo">Han's Lab</a>
+  <a href="../index.html#research" class="nav-back">&larr; Research</a>
+</nav>
+<div class="page-hero">
+  <div class="page-label">Computation</div>
+  <h1 class="page-title">Photonic Tensor Core</h1>
+  <div class="page-subtitle">빛의 간섭을 이용한 행렬 연산으로 AI 추론을 초저전력으로 가속합니다.</div>
+</div>
+<div class="page-content">
+  <div class="page-img"><img src="../images/PTC.png" alt="Photonic Tensor Core" style="width:100%;height:100%;object-fit:cover;border-radius:4px"></div>
+  <p>광집적회로 위에서 Mach-Zehnder Interferometer(MZI) 배열을 활용하여 행렬-벡터 곱셈을 빛의 속도로 수행합니다. 전자 프로세서 대비 소비전력을 획기적으로 줄이면서도 높은 연산 처리량을 달성하는 것이 목표입니다.</p>
+  <p>— 상세 내용 추가 예정 —</p>
+</div>
+<footer>
+  <span>&copy; 2025 Han's Lab · DGIST</span>
+  <span>Daegu, Korea</span>
+</footer>
+</body>
+</html>
