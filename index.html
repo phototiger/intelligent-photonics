@@ -66,7 +66,7 @@ section{padding:7rem 4rem;border-top:1px solid var(--border)}
 #contact .section-title{white-space:nowrap}
 .section-intro{font-size:1.15rem;color:var(--text);max-width:800px;line-height:1.9;margin-bottom:4rem}
 #research{background:var(--surface)}
-.research-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:3rem}
+.research-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:3rem}
 .research-card{background:var(--bg);padding:3rem;position:relative;overflow:hidden;transition:background 0.3s;cursor:pointer}
 .research-card:hover{background:#0d1015}
 .research-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:var(--accent);transition:height 0.4s ease}
@@ -202,8 +202,8 @@ footer{padding:3rem 4rem;border-top:1px solid var(--border);display:flex;justify
 </section>
 <section id="research">
   <div class="section-label">Research</div>
-  <h2 class="section-title">AI 시대가 던지는 세 가지 질문,<br>광집적회로로 답하다</h2>
-  <p class="section-intro">NVIDIA, Intel, TSMC, Google 등 글로벌 반도체·IT 기업들이 앞다투어 광집적회로(Photonic Integrated Circuit) 기술에 투자하고 있습니다. 전자의 한계를 넘어, 빛으로 데이터를 처리하고 전송하는 기술이 차세대 AI 인프라의 핵심으로 부상하고 있기 때문입니다. 우리 연구실은 이 흐름의 최전선에서 세 가지 근본적인 질문에 도전합니다.</p>
+  <h2 class="section-title">AI 시대가 던지는 네 가지 질문,<br>광집적회로로 답하다</h2>
+  <p class="section-intro">NVIDIA, Intel, TSMC, Google 등 글로벌 반도체·IT 기업들이 앞다투어 광집적회로(Photonic Integrated Circuit) 기술에 투자하고 있습니다. 전자의 한계를 넘어, 빛으로 데이터를 처리하고 전송하는 기술이 차세대 AI 인프라의 핵심으로 부상하고 있기 때문입니다. 우리 연구실은 이 흐름의 최전선에서 네 가지 근본적인 질문에 도전합니다.</p>
   <div class="research-grid">
     <div class="research-card" data-modal="modal-computation">
 
@@ -223,8 +223,15 @@ footer{padding:3rem 4rem;border-top:1px solid var(--border);display:flex;justify
 
       <h3 class="card-title">Vision</h3>
       <div class="card-subtitle">초경량 AR Glasses와 고해상도 LiDAR</div>
-      <p class="card-body">광집적회로를 이용해 세상을 더 정확히 보고 더 편안한 사용자 경험을 제공합니다.</p>
-      <div class="card-tags"><span class="tag">LiDAR</span><span class="tag">AR Glasses</span></div>
+      <p class="card-body">광집적회로를 이용해 세상을 더 정확히 보고 더 편안한 사용자 경험을 제공합니다. 자율주행부터 헬스케어(낙상 감지, 보행 분석, 재활 모니터링)까지 폭넓은 응용을 목표로 합니다.</p>
+      <div class="card-tags"><span class="tag">LiDAR</span><span class="tag">AR Glasses</span><span class="tag">Healthcare</span></div>
+    </div>
+    <div class="research-card" data-modal="modal-sensing">
+
+      <h3 class="card-title">Sensing</h3>
+      <div class="card-subtitle">빛과 소리로 측정하는 세상</div>
+      <p class="card-body">광-기계 초음파 센서 어레이와 chip-scale spectroscopy로 의료 영상, 환경 모니터링, 산업 현장 진단의 새로운 가능성을 엽니다.</p>
+      <div class="card-tags"><span class="tag">Optomechanical Ultrasound</span><span class="tag">Chip-scale Spectroscopy</span></div>
     </div>
   </div>
 </section>
@@ -260,7 +267,7 @@ footer{padding:3rem 4rem;border-top:1px solid var(--border);display:flex;justify
     <div class="about-col">
       <div class="about-section-title">Honors & Awards</div>
       <ul class="about-list">
-        <li>Outstanding Research Award, DGIST <span class="year">2024</span></li>
+        <li>Outstanding Research Award, DGIST <span class="year">2025</span></li>
         <li>IITP Presidential Award, ICT Challenge <span class="year">2024</span></li>
         <li>Young Scientist Award, PIERS <span class="year">2024</span></li>
         <li>IEEE IUS Best Paper Award, Finalist <span class="year">2023</span></li>
@@ -575,6 +582,28 @@ footer{padding:3rem 4rem;border-top:1px solid var(--border);display:flex;justify
         <div class="subtopic-info">
           <div class="subtopic-name">AR Glasses</div>
           <div class="subtopic-desc">광집적회로 기반 디스플레이로 차세대 증강현실 글래스를 구현합니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-sensing">
+  <div class="modal">
+    <button class="modal-close">&times;</button>
+    <h3 class="card-title">Sensing</h3>
+    <div class="card-subtitle">빛과 소리로 측정하는 세상</div>
+    <p class="card-body">광집적회로와 MEMS 기술을 결합하여 기존 센서의 한계를 뛰어넘는 초고감도·초소형 센싱 플랫폼을 만듭니다. 의료 진단, 환경 모니터링, 산업 현장 계측 등 다양한 분야에 적용할 수 있습니다.</p>
+    <div class="subtopic-grid">
+      <div class="subtopic-card">
+        <div class="subtopic-info">
+          <div class="subtopic-name">Optomechanical Ultrasound Array</div>
+          <div class="subtopic-desc">광-기계 상호작용을 이용한 초고감도 초음파 센서 어레이로 차세대 의료 영상과 비파괴 검사를 구현합니다.</div>
+        </div>
+      </div>
+      <div class="subtopic-card">
+        <div class="subtopic-info">
+          <div class="subtopic-name">Chip-scale Spectroscopy</div>
+          <div class="subtopic-desc">손톱만 한 칩 위에서 분광 분석을 수행하여 현장에서 바로 물질을 정밀하게 측정합니다.</div>
         </div>
       </div>
     </div>
