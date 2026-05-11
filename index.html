@@ -158,6 +158,7 @@ footer{padding:3rem 4rem;border-top:1px solid var(--border);display:flex;justify
 .modal .card-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
 .subtopic-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;margin-top:2.5rem}
 .subtopic-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
+.subtopic-grid.cols-1{grid-template-columns:1fr;max-width:720px;margin-left:auto;margin-right:auto}
 .subtopic-card{border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:border-color 0.3s,transform 0.2s;cursor:pointer;text-decoration:none;color:inherit;display:block}
 .subtopic-card:hover{border-color:var(--accent);transform:translateY(-2px)}
 .subtopic-img{width:100%;aspect-ratio:16/10;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--text-faint);font-size:0.85rem;border-bottom:1px solid var(--border)}
@@ -236,9 +237,9 @@ footer{padding:3rem 4rem;border-top:1px solid var(--border);display:flex;justify
     <div class="research-card" data-modal="modal-sensing">
 
       <h3 class="card-title">Sensing</h3>
-      <div class="card-subtitle">빛과 소리로 측정하는 세상</div>
-      <p class="card-body">광-기계 초음파 센서 어레이와 chip-scale spectroscopy로 의료 영상, 환경 모니터링, 산업 현장 진단의 새로운 가능성을 엽니다.</p>
-      <div class="card-tags"><span class="tag">Optomechanical Ultrasound</span><span class="tag">Chip-scale Spectroscopy</span></div>
+      <div class="card-subtitle">빛으로 듣는 초음파, 의료와 산업의 새로운 눈</div>
+      <p class="card-body">광-기계 결합으로 동작하는 초고감도 초음파 센서를 개발합니다. 기존 PZT 방식의 한계를 넘어, 광음향 의료 영상과 비접촉 비파괴 검사에 새로운 가능성을 열고 있습니다.</p>
+      <div class="card-tags"><span class="tag">Optomechanical Ultrasound</span><span class="tag">Photoacoustic Imaging</span><span class="tag">NDT</span></div>
     </div>
   </div>
 </section>
@@ -783,19 +784,14 @@ footer{padding:3rem 4rem;border-top:1px solid var(--border);display:flex;justify
   <div class="modal">
     <button class="modal-close">&times;</button>
     <h3 class="card-title">Sensing</h3>
-    <div class="card-subtitle">빛과 소리로 측정하는 세상</div>
-    <p class="card-body">광집적회로와 MEMS 기술을 결합하여 기존 센서의 한계를 뛰어넘는 초고감도·초소형 센싱 플랫폼을 만듭니다. 의료 진단, 환경 모니터링, 산업 현장 계측 등 다양한 분야에 적용할 수 있습니다.</p>
-    <div class="subtopic-grid">
+    <div class="card-subtitle">빛으로 듣는 초음파, 의료와 산업의 새로운 눈</div>
+    <p class="card-body">광-기계 결합으로 동작하는 초고감도 초음파 센서를 개발합니다. 기존 PZT(압전소자) 방식 대비 훨씬 작고 민감하면서, 어레이로 집적할 수 있는 구조라 광음향 의료 영상과 비접촉/비파괴 검사에 새로운 가능성을 열고 있습니다.</p>
+    <div class="subtopic-grid cols-1">
       <div class="subtopic-card">
+        <div class="subtopic-img"><img src="images/초음파.png" alt="Optomechanical Ultrasound Sensor"></div>
         <div class="subtopic-info">
           <div class="subtopic-name">Optomechanical Ultrasound Array</div>
-          <div class="subtopic-desc">광-기계 상호작용을 이용한 초고감도 초음파 센서 어레이로 차세대 의료 영상과 비파괴 검사를 구현합니다.</div>
-        </div>
-      </div>
-      <div class="subtopic-card">
-        <div class="subtopic-info">
-          <div class="subtopic-name">Chip-scale Spectroscopy</div>
-          <div class="subtopic-desc">손톱만 한 칩 위에서 분광 분석을 수행하여 현장에서 바로 물질을 정밀하게 측정합니다.</div>
+          <div class="subtopic-desc">광-기계 상호작용을 이용한 초고감도 초음파 센서 어레이. 의료 영상(광음향 이미징)과 산업 현장 비파괴 검사에 활용됩니다.<br><br><strong>주요 성과:</strong> 삼성미래기술육성사업 수행 · IEEE IUS 2023 Best Paper Finalist (203편 중 15편 선정) · KSME-SEMES 오픈 이노베이션 챌린지 동상</div>
         </div>
       </div>
     </div>
