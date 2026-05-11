@@ -112,6 +112,18 @@ section{padding:7rem 4rem;border-top:1px solid var(--border)}
 .join-contact a:hover{text-decoration:underline}
 .join-links{display:flex;gap:1.2rem;margin-top:2rem}
 @media(max-width:768px){.join-grid{grid-template-columns:1fr}}
+.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;margin-top:2.5rem}
+.video-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:border-color 0.3s,transform 0.2s}
+.video-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.video-thumb{position:relative;width:100%;aspect-ratio:16/9;background:var(--bg);overflow:hidden}
+.video-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.video-thumb::after{content:'▶';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:rgba(10,12,16,0.85);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;padding-left:4px;transition:background 0.2s}
+.video-card:hover .video-thumb::after{background:var(--accent);color:#0a0c10}
+.video-info{padding:1.1rem 1.2rem 1.3rem}
+.video-title{font-size:1rem;color:#f0ede8;line-height:1.5;margin-bottom:0.4rem;font-weight:400}
+.video-meta{font-size:0.82rem;color:var(--text-muted)}
+@media(max-width:1024px){.video-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.video-grid{grid-template-columns:1fr}}
 .news-list{list-style:none;padding:0;margin-top:2rem}
 .news-item{padding:1.5rem 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:120px 1fr;gap:2rem;align-items:start}
 .news-item:first-child{border-top:1px solid var(--border)}
@@ -183,6 +195,7 @@ footer{padding:3rem 4rem;border-top:1px solid var(--border);display:flex;justify
     <li><a href="#publications">논문</a></li>
     <li><a href="#invited-talks">초청발표</a></li>
     <li><a href="#team">구성원</a></li>
+    <li><a href="#videos">영상</a></li>
     <li><a href="#news">소식</a></li>
     <li><a href="#contact">합류하기</a></li>
   </ul>
@@ -535,6 +548,82 @@ footer{padding:3rem 4rem;border-top:1px solid var(--border);display:flex;justify
     <li><span class="alumni-name">Min Gi Lim</span> · M.S. (2024.02) → Samsung Electronics</li>
     <li><span class="alumni-name">Do Yun Kim</span> · M.S. (2022.02) → Samsung Electronics</li>
   </ul>
+</section>
+<section id="videos">
+  <div class="section-label">Videos</div>
+  <h2 class="section-title">강연 · 인터뷰 · 기술 소개</h2>
+  <div class="video-grid">
+    <a class="video-card" href="https://youtu.be/u6akMGczda4" target="_blank" rel="noopener">
+      <div class="video-thumb"><img src="https://img.youtube.com/vi/u6akMGczda4/hqdefault.jpg" alt="비전공자도 이해하는 실리콘 포토닉스 (1) 개요" loading="lazy"></div>
+      <div class="video-info">
+        <div class="video-title">비전공자도 이해하는 실리콘 포토닉스 (1) — 실리콘 포토닉스 개요</div>
+        <div class="video-meta">빛나는반도체</div>
+      </div>
+    </a>
+    <a class="video-card" href="https://youtu.be/TdQApa7iqtY" target="_blank" rel="noopener">
+      <div class="video-thumb"><img src="https://img.youtube.com/vi/TdQApa7iqtY/hqdefault.jpg" alt="비전공자도 이해하는 실리콘 포토닉스 (2) 구성요소" loading="lazy"></div>
+      <div class="video-info">
+        <div class="video-title">비전공자도 이해하는 실리콘 포토닉스 (2) — 구성요소</div>
+        <div class="video-meta">빛나는반도체</div>
+      </div>
+    </a>
+    <a class="video-card" href="https://youtu.be/kwnWbM2qneQ" target="_blank" rel="noopener">
+      <div class="video-thumb"><img src="https://img.youtube.com/vi/kwnWbM2qneQ/hqdefault.jpg" alt="비전공자도 이해하는 실리콘 포토닉스 (3) DGIST INL 연구실 소개" loading="lazy"></div>
+      <div class="video-info">
+        <div class="video-title">비전공자도 이해하는 실리콘 포토닉스 (3) — DGIST INL 연구실 소개</div>
+        <div class="video-meta">빛나는반도체</div>
+      </div>
+    </a>
+    <a class="video-card" href="https://youtu.be/bCTBeGSCOcg" target="_blank" rel="noopener">
+      <div class="video-thumb"><img src="https://img.youtube.com/vi/bCTBeGSCOcg/hqdefault.jpg" alt="브라보마이라이프 한상윤 교수" loading="lazy"></div>
+      <div class="video-info">
+        <div class="video-title">브라보마이라이프 — 한상윤 교수 인터뷰</div>
+        <div class="video-meta">KBS대구 라디오 · 2025.04.21</div>
+      </div>
+    </a>
+    <a class="video-card" href="https://www.youtube.com/watch?v=0p32Ylljoko" target="_blank" rel="noopener">
+      <div class="video-thumb"><img src="https://img.youtube.com/vi/0p32Ylljoko/hqdefault.jpg" alt="광연결 반도체 기술 소개" loading="lazy"></div>
+      <div class="video-info">
+        <div class="video-title">광연결 반도체 기술 소개 및 설명</div>
+        <div class="video-meta">한국광융합산업진흥회 공동훈련센터</div>
+      </div>
+    </a>
+    <a class="video-card" href="https://youtu.be/qgYuMS0EqV0" target="_blank" rel="noopener">
+      <div class="video-thumb"><img src="https://img.youtube.com/vi/qgYuMS0EqV0/hqdefault.jpg" alt="튜토리얼 Field-programmable 광집적회로" loading="lazy"></div>
+      <div class="video-info">
+        <div class="video-title">튜토리얼 — Field-programmable 대규모 광집적회로의 발전 현황과 향후 과제</div>
+        <div class="video-meta">실리콘 포토닉스 · photonic-FPGA · MEMS</div>
+      </div>
+    </a>
+    <a class="video-card" href="https://youtu.be/mrc2XPU7hf4" target="_blank" rel="noopener">
+      <div class="video-thumb"><img src="https://img.youtube.com/vi/mrc2XPU7hf4/hqdefault.jpg" alt="Silicon Photonic MEMS Switch and Application" loading="lazy"></div>
+      <div class="video-info">
+        <div class="video-title">Silicon Photonic MEMS Switch &amp; Application</div>
+        <div class="video-meta">강연 발표</div>
+      </div>
+    </a>
+    <a class="video-card" href="https://youtu.be/m0v0kSm4t1M" target="_blank" rel="noopener">
+      <div class="video-thumb"><img src="https://img.youtube.com/vi/m0v0kSm4t1M/hqdefault.jpg" alt="제14회 양자연구회 워크샵 한상윤 교수 발표" loading="lazy"></div>
+      <div class="video-info">
+        <div class="video-title">제14회 양자연구회 워크샵 — 한상윤 교수 발표</div>
+        <div class="video-meta">양자연구회</div>
+      </div>
+    </a>
+    <a class="video-card" href="https://www.youtube.com/watch?v=M7DfMBsg1Vw" target="_blank" rel="noopener">
+      <div class="video-thumb"><img src="https://img.youtube.com/vi/M7DfMBsg1Vw/hqdefault.jpg" alt="On-chip Optical Ising Machine" loading="lazy"></div>
+      <div class="video-info">
+        <div class="video-title">On-chip Optical Ising Machine</div>
+        <div class="video-meta">Sangyoon Han · 학회 발표</div>
+      </div>
+    </a>
+    <a class="video-card" href="https://youtu.be/pSCpxjkWqc0" target="_blank" rel="noopener">
+      <div class="video-thumb"><img src="https://img.youtube.com/vi/pSCpxjkWqc0/hqdefault.jpg" alt="DGIST RME Poster Day 김익주" loading="lazy"></div>
+      <div class="video-info">
+        <div class="video-title">DGIST RME Poster Day — 김익주 학생 발표</div>
+        <div class="video-meta">DGIST RME · 지도교수: 한상윤</div>
+      </div>
+    </a>
+  </div>
 </section>
 <section id="news">
   <div class="section-label">News</div>
